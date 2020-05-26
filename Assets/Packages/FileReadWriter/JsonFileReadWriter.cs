@@ -9,35 +9,35 @@ public static class JsonFileReadWriter
 {
     public static TextFileIOResult WriteJsonToStreamingAssets<T>(T obj, string dir = null, string file = null)
     {
-        string path = ToJsonFilePath(dir, file ?? obj.GetType().ToString());
+        string path = ToJsonFilePath(dir, file ?? typeof(T).Name);
 
         return TextFileReadWriter.WriteToStreamingAssets(path, JsonUtility.ToJson(obj));
     }
 
     public static TextFileIOResult WriteJsonToStreamingAssetsX<T>(T obj, string dir = null, string file = null)
     {
-        string path = ToJsonFilePath(dir, file ?? obj.GetType().ToString());
+        string path = ToJsonFilePath(dir, file ?? typeof(T).Name);
 
         return TextFileReadWriter.WriteToStreamingAssets(path, DataContractJsonUtility.ToJson(obj));
     }
 
     public static TextFileIOResult WriteJsonToFile<T>(T obj, string dir = null, string file = null)
     {
-        string path = ToJsonFilePath(dir, file ?? obj.GetType().ToString());
+        string path = ToJsonFilePath(dir, file ?? typeof(T).Name);
 
         return TextFileReadWriter.WriteToFile(path, JsonUtility.ToJson(obj));
     }
 
     public static TextFileIOResult WriteJsonToFileX<T>(T obj, string file = null, string dir = null)
     {
-        string path = ToJsonFilePath(dir, file ?? obj.GetType().ToString());
+        string path = ToJsonFilePath(dir, file ?? typeof(T).Name);
 
         return TextFileReadWriter.WriteToFile(path, DataContractJsonUtility.ToJson(obj));
     }
 
     public static T ReadJsonFromStreamingAssets<T>(string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).ToString()));
+        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).Name));
 
         if (ioResult.isSuccess)
         {
@@ -52,7 +52,7 @@ public static class JsonFileReadWriter
 
     public static void ReadJsonFromStreamingAssets<T>(T obj, string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).ToString()));
+        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).Name));
 
         if (ioResult.isSuccess)
         {
@@ -66,7 +66,7 @@ public static class JsonFileReadWriter
 
     public static T ReadJsonFromStreamingAssetsX<T>(string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).ToString()));
+        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).Name));
 
         if (ioResult.isSuccess)
         {
@@ -81,7 +81,7 @@ public static class JsonFileReadWriter
 
     public static T ReadJsonFromFile<T>(string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).ToString()));
+        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).Name));
 
         if (ioResult.isSuccess)
         {
@@ -96,7 +96,7 @@ public static class JsonFileReadWriter
 
     public static void ReadJsonFromFile<T>(T obj, string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).ToString()));
+        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).Name));
 
         if (ioResult.isSuccess)
         {
@@ -110,7 +110,7 @@ public static class JsonFileReadWriter
 
     public static T ReadJsonFromFileX<T>(string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).ToString()));
+        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).Name));
 
         if (ioResult.isSuccess)
         {
