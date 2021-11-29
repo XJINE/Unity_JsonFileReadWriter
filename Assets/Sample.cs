@@ -6,45 +6,43 @@ public class Sample : MonoBehaviour
 
     public SampleClass sampleClass;
 
-    public string directory = "SampleDir";
-
-    public KeyCode SetRandomValueKey = KeyCode.S;
-    public KeyCode ReadJsonKey       = KeyCode.R;
-    public KeyCode WriteJsonKey      = KeyCode.W;
+    public string  directory         = "SampleDir";
+    public KeyCode setRandomValueKey = KeyCode.S;
+    public KeyCode readJsonKey       = KeyCode.R;
+    public KeyCode writeJsonKey      = KeyCode.W;
 
     #endregion Field
 
     #region Method
 
-    void Start()
+    private void Start()
     {
-        this.sampleClass = new SampleClass();
-        this.sampleClass.SetRandomValue();
+        sampleClass.SetRandomValue();
     }
 
-     void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(this.SetRandomValueKey))
+        if (Input.GetKeyDown(setRandomValueKey))
         {
-            this.sampleClass.SetRandomValue();
+            sampleClass.SetRandomValue();
         }
 
-        if (Input.GetKeyDown(this.WriteJsonKey))
+        if (Input.GetKeyDown(writeJsonKey))
         {
-            JsonFileReadWriter.WriteJsonToStreamingAssets(this.sampleClass, this.directory);
+            JsonFileReadWriter.WriteJsonToStreamingAssets(sampleClass, directory);
         }
 
-        if (Input.GetKeyDown(this.ReadJsonKey))
+        if (Input.GetKeyDown(readJsonKey))
         {
-            JsonFileReadWriter.ReadJsonFromStreamingAssets(this.sampleClass, this.directory);
+            JsonFileReadWriter.ReadJsonFromStreamingAssets(sampleClass, directory);
         }
     }
 
-    void OnGUI()
+    private void OnGUI()
     {
-        GUILayout.Label("[" + this.SetRandomValueKey + "] Set Random Value.");
-        GUILayout.Label("[" + this.ReadJsonKey       + "] Read Json.");
-        GUILayout.Label("[" + this.WriteJsonKey      + "] Write Json.");
+        GUILayout.Label("[" + setRandomValueKey + "] Set Random Value.");
+        GUILayout.Label("[" + readJsonKey       + "] Read Json.");
+        GUILayout.Label("[" + writeJsonKey      + "] Write Json.");
     }
 
     #endregion Method

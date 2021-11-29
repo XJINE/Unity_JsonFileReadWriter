@@ -6,65 +6,74 @@ namespace System.IO
     {
         #region Method
 
-        public static TextFileIOResult Write(string path, string text)
+        public static (string text, bool success) Write(string path, string text)
         {
             return Write(path, text, Encoding.UTF8);
         }
 
-        public static TextFileIOResult Write(string path, string text, Encoding encoding, bool overwrite = true)
+        public static (string text, bool success) Write(string path, string text, Encoding encoding, bool overwrite = true)
         {
             // NOTE:
-            // Use "Write" not "WriteLine", because of the line-break will be inserted.
+            // Encoding is defined as class.
 
-            string directoryPath = Path.GetDirectoryName(path);
+            // NOTE:
+            // Use "Write", not "WriteLine".
+            // Because of the line-break will be inserted.
 
-            if (Directory.Exists(directoryPath) == false)
+            if (string.IsNullOrEmpty(path))
             {
-                Directory.CreateDirectory(directoryPath);
+                return (path + "\"path\" is null or empty.", false);
+            }
+
+            var dir = Path.GetDirectoryName(path);
+
+            if (dir != null && Directory.Exists(dir) == false)
+            {
+                Directory.CreateDirectory(dir);
             }
 
             if (File.Exists(path) && !overwrite)
             {
-                return new TextFileIOResult(false, path + " already exists.");
+                return (path + " already exists.", false);
             }
 
             try
             {
-                using (StreamWriter writer = new StreamWriter(path, false, encoding))
+                using (var writer = new StreamWriter(path, false, encoding))
                 {
                     writer.Write(text);
                 }
 
-                return new TextFileIOResult(true, text);
+                return (text, true);
             }
             catch (Exception exception)
             {
-                return new TextFileIOResult(false, exception.Message);
+                return (exception.Message, false);
             }
         }
 
-        public static TextFileIOResult Read(string path)
+        public static (string text, bool success) Read(string path)
         {
             return ReadFromFile(path, Encoding.UTF8);
         }
 
-        public static TextFileIOResult ReadFromFile(string path, Encoding encoding)
+        public static (string text, bool success) ReadFromFile(string path, Encoding encoding)
         {
             try
             {
-                FileInfo fileInfo = new FileInfo(path);
-                string   text;
+                var fileInfo = new FileInfo(path);
+                string text;
 
-                using (StreamReader reader = new StreamReader(fileInfo.OpenRead(), encoding))
+                using (var reader = new StreamReader(fileInfo.OpenRead(), encoding))
                 {
                     text = reader.ReadToEnd();
                 }
 
-                return new TextFileIOResult(true, text);
+                return (text, true);
             }
             catch (Exception exception)
             {
-                return new TextFileIOResult(false, exception.Message);
+                return (exception.Message, false);
             }
         }
 

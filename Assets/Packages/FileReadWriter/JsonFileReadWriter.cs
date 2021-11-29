@@ -1,148 +1,91 @@
-﻿using UnityEngine;
-using System.IO;
-
-// NOTE:
-// ~X function use DataContractJsonSerializer.
-// However, it is not recommended.
+﻿using System.IO;
+using UnityEngine;
 
 public static class JsonFileReadWriter
 {
-    public static TextFileIOResult WriteJsonToStreamingAssets<T>(T obj, string dir = null, string file = null)
+    public static (string json, bool success) WriteJsonToStreamingAssets<T>(T obj, string dir = null, string file = null)
     {
-        string path = ToJsonFilePath(dir, file ?? typeof(T).Name);
+        dir ??= "";
+        file = (file ?? typeof(T).Name) + ".json";
 
-        return TextFileReadWriter.WriteToStreamingAssets(path, JsonUtility.ToJson(obj));
+        return TextFileReadWriter.WriteToStreamingAssets(Path.Combine(dir, file), JsonUtility.ToJson(obj));
     }
-
-    public static TextFileIOResult WriteJsonToStreamingAssetsX<T>(T obj, string dir = null, string file = null)
+    
+    public static (string json, bool success) WriteJsonToFile<T>(T obj, string dir = null, string file = null)
     {
-        string path = ToJsonFilePath(dir, file ?? typeof(T).Name);
+        dir ??= "";
+        file = (file ?? typeof(T).Name) + ".json";
 
-        return TextFileReadWriter.WriteToStreamingAssets(path, DataContractJsonUtility.ToJson(obj));
+        return TextFileReadWriter.WriteToFile(Path.Combine(dir, file), JsonUtility.ToJson(obj));
     }
-
-    public static TextFileIOResult WriteJsonToFile<T>(T obj, string dir = null, string file = null)
+    
+    public static (T data, bool success) ReadJsonFromStreamingAssets<T>(string dir = null, string file = null)
     {
-        string path = ToJsonFilePath(dir, file ?? typeof(T).Name);
+        dir ??= "";
+        file = (file ?? typeof(T).Name) + ".json";
 
-        return TextFileReadWriter.WriteToFile(path, JsonUtility.ToJson(obj));
-    }
+        var (text, success) = TextFileReadWriter.ReadFromStreamingAssets(Path.Combine(dir, file));
 
-    public static TextFileIOResult WriteJsonToFileX<T>(T obj, string file = null, string dir = null)
-    {
-        string path = ToJsonFilePath(dir, file ?? typeof(T).Name);
-
-        return TextFileReadWriter.WriteToFile(path, DataContractJsonUtility.ToJson(obj));
-    }
-
-    public static T ReadJsonFromStreamingAssets<T>(string dir = null, string file = null)
-    {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).Name));
-
-        if (ioResult.isSuccess)
+        if (success)
         {
-            return JsonUtility.FromJson<T>(ioResult.text);
+            return (JsonUtility.FromJson<T>(text), true);
         }
         else
         {
-            Debug.LogWarning(ioResult.text);
-            return default;
+            Debug.LogWarning(text);
+            return (default, false);
         }
     }
 
     public static void ReadJsonFromStreamingAssets<T>(T obj, string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).Name));
+        dir ??= "";
+        file = (file ?? typeof(T).Name) + ".json";
 
-        if (ioResult.isSuccess)
+        var (text, success) = TextFileReadWriter.ReadFromStreamingAssets(Path.Combine(dir, file));
+
+        if (success)
         {
-            JsonUtility.FromJsonOverwrite(ioResult.text, obj);
+            JsonUtility.FromJsonOverwrite(text, obj);
         }
         else
         {
-            Debug.LogWarning(ioResult.text);
+            Debug.LogWarning(text);
         }
     }
-
-    public static T ReadJsonFromStreamingAssetsX<T>(string dir = null, string file = null)
+    
+    public static (T data, bool success) ReadJsonFromFile<T>(string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromStreamingAssets(ToJsonFilePath(dir, file ?? typeof(T).Name));
+        dir ??= "";
+        file = (file ?? typeof(T).Name) + ".json";
 
-        if (ioResult.isSuccess)
+        var (text, success) = TextFileReadWriter.ReadFromFile(Path.Combine(dir, file));
+
+        if (success)
         {
-            return DataContractJsonUtility.FromJson<T>(ioResult.text);
+            return (JsonUtility.FromJson<T>(text), true);
         }
         else
         {
-            Debug.LogWarning(ioResult.text);
-            return default;
-        }
-    }
-
-    public static T ReadJsonFromFile<T>(string dir = null, string file = null)
-    {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).Name));
-
-        if (ioResult.isSuccess)
-        {
-            return JsonUtility.FromJson<T>(ioResult.text);
-        }
-        else
-        {
-            Debug.LogWarning(ioResult.text);
-            return default;
+            Debug.LogWarning(text);
+            return (default, false);
         }
     }
 
     public static void ReadJsonFromFile<T>(T obj, string dir = null, string file = null)
     {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).Name));
+        dir ??= "";
+        file = (file ?? typeof(T).Name) + ".json";
 
-        if (ioResult.isSuccess)
+        var (text, success) = TextFileReadWriter.ReadFromFile(Path.Combine(dir, file));
+
+        if (success)
         {
-            JsonUtility.FromJsonOverwrite(ioResult.text, obj);
+            JsonUtility.FromJsonOverwrite(text, obj);
         }
         else
         {
-            Debug.LogWarning(ioResult.text);
+            Debug.LogWarning(text);
         }
-    }
-
-    public static T ReadJsonFromFileX<T>(string dir = null, string file = null)
-    {
-        TextFileIOResult ioResult = TextFileReadWriter.ReadFromFile(ToJsonFilePath(dir, file ?? typeof(T).Name));
-
-        if (ioResult.isSuccess)
-        {
-            return DataContractJsonUtility.FromJson<T>(ioResult.text);
-        }
-        else
-        {
-            Debug.LogWarning(ioResult.text);
-            return default;
-        }
-    }
-
-    private static string ToJsonFilePath(string dir, string file)
-    {
-        string path = "";
-
-        if (dir == null || dir.Length == 0)
-        {
-            path = "/";
-        }
-        else
-        {
-            if (dir[dir.Length - 1] != '/')
-            {
-                dir += "/";
-            }
-
-            path = dir;
-        }
-
-        path = path + (file ?? "") + ".json";
-
-        return path;
     }
 }

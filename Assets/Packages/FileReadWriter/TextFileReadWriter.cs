@@ -5,44 +5,21 @@ public static class TextFileReadWriter
 {
     #region Method
 
-    public static TextFileIOResult ReadFromAssets(string relativePath)
+    public static (string text, bool success) ReadFromAssets(string relativePath)
     {
-        return ReadFromFile(Application.dataPath + ToRelativePath(relativePath));
+        return ReadFromFile(Path.Combine(Application.dataPath, relativePath));
     }
 
-    public static TextFileIOResult ReadFromStreamingAssets(string relativePath)
+    public static (string text, bool success) ReadFromStreamingAssets(string relativePath)
     {
-        return ReadFromFile(Application.streamingAssetsPath + ToRelativePath(relativePath));
+        return ReadFromFile(Path.Combine(Application.streamingAssetsPath, relativePath));
     }
 
-    public static TextFileIOResult ReadFromFile(string absolutePath)
+    public static (string text, bool success) ReadFromFile(string absolutePath)
     {
-        TextFileIOResult result = System.IO.TextFileReadWriter.Read(absolutePath);
+        var result = System.IO.TextFileReadWriter.Read(absolutePath);
 
-        if (!result.isSuccess)
-        {
-            Debug.LogWarning(result.text);
-            return null;
-        }
-
-        return result;
-    }
-
-    public static TextFileIOResult WriteToAssets(string relativePath, string text)
-    {
-        return WriteToFile(Application.dataPath + ToRelativePath(relativePath), text);
-    }
-
-    public static TextFileIOResult WriteToStreamingAssets(string relativePath, string text)
-    {
-        return WriteToFile(Application.streamingAssetsPath + ToRelativePath(relativePath), text);
-    }
-
-    public static TextFileIOResult WriteToFile(string absolutePath, string text)
-    {
-        TextFileIOResult result = System.IO.TextFileReadWriter.Write(absolutePath, text);
-
-        if (!result.isSuccess)
+        if (!result.success)
         {
             Debug.LogWarning(result.text);
         }
@@ -50,21 +27,26 @@ public static class TextFileReadWriter
         return result;
     }
 
-    private static string ToRelativePath(string path)
+    public static (string text, bool success) WriteToAssets(string relativePath, string text)
     {
-        if (path == null || path.Length == 0)
+        return WriteToFile(Path.Combine(Application.dataPath, relativePath), text);
+    }
+
+    public static (string text, bool success) WriteToStreamingAssets(string relativePath, string text)
+    {
+        return WriteToFile(Path.Combine(Application.streamingAssetsPath, relativePath), text);
+    }
+
+    public static (string text, bool success) WriteToFile(string absolutePath, string text)
+    {
+        var result = System.IO.TextFileReadWriter.Write(absolutePath, text);
+
+        if (!result.success)
         {
-            return "/";
+            Debug.LogWarning(result.text);
         }
 
-        if (path[0] == '/')
-        {
-            return path;
-        }
-        else
-        {
-            return "/" + path;
-        }
+        return result;
     }
 
     #endregion Method
