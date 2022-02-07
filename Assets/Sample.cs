@@ -29,12 +29,12 @@ public class Sample : MonoBehaviour
 
         if (Input.GetKeyDown(writeJsonKey))
         {
-            JsonFileReadWriter.WriteJsonToStreamingAssets(sampleClass, directory);
+            JsonFileReadWriter.WriteToStreamingAssets(directory, sampleClass);
         }
 
         if (Input.GetKeyDown(readJsonKey))
         {
-            JsonFileReadWriter.ReadJsonFromStreamingAssets(sampleClass, directory);
+            JsonFileReadWriter.ReadFromStreamingAssets(directory, sampleClass);
         }
     }
 
