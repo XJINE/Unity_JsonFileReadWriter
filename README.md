@@ -10,19 +10,33 @@ You have to import following assets to use this asset.
 
 ## How to Use
 
-Following functions are sample.
-
-``Write~`` functions write the json of ``obj`` into ``.json`` file.
-``Read~`` functions read ``.json`` file into ``obj``.
-When the ``file`` set as ``null`` the file name gets ``T``.
-And when the ``dir`` set as ``null``, the directory set as top.
-
-### Example
+Following functions are included.
 
 ```csharp
-WriteToStreamingAssets<T>(string dir, T obj)
-Write<T>(string path, T obj)
-ReadFromStreamingAssets<T>(string dir, string file)
-ReadFromStreamingAssets<T>(string dir, string file, T obj)
-Read<T>(string dir, string file)
+(T data, bool success) ReadFromAssets<T>(string dir = null, string file = null)
+(T data, bool success) ReadFromStreamingAssets<T>(string dir = null, string file = null)
+(T data, bool success) Read<T>(string dir = null, string file = null)
+(T data, bool success) Read<T>(string path, bool forceExtension = true)
+
+void ReadFromAssets<T>(T obj)
+void ReadFromAssets<T>(string dir, T obj)
+void ReadFromAssets<T>(string dir, string file, T obj)
+
+void ReadFromStreamingAssets<T>(T obj)
+void ReadFromStreamingAssets<T>(string dir, T obj)
+void ReadFromStreamingAssets<T>(string dir, string file, T obj)
+
+void Read<T>(string dir, string file, T obj)
+void Read<T>(string path, T obj, bool forceExtension = true)
+
+(string json, bool success) WriteToAssets<T>(T obj)
+(string json, bool success) WriteToAssets<T>(string dir, T obj)
+(string json, bool success) WriteToAssets<T>(string dir, string file, T obj)
+
+(string json, bool success) WriteToStreamingAssets<T>(T obj)
+(string json, bool success) WriteToStreamingAssets<T>(string dir, T obj)
+(string json, bool success) WriteToStreamingAssets<T>(string dir, string file, T obj)
+
+(string json, bool success) Write<T>(string dir, string file, T obj)
+(string json, bool success) Write<T>(string path, T obj, bool forceExtension = true)
 ```
