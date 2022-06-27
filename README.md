@@ -2,11 +2,21 @@
 
 ``JsonFileReadWriter`` provides simple functions to de/serialize json from/to file.
 
-## Dependencies
+## Importing
 
-You have to import following assets to use this asset.
+You can use Package Manager or import it directly.
 
-- [Unity_TextFileReadWriter](https://github.com/XJINE/Unity_TextFileReadWriter)
+```
+https://github.com/XJINE/Unity_JsonFileReadWriter.git?path=Assets/Packages/JsonFileReadWriter
+```
+
+NOTE: Because of the limitation of UnityPackageManager, it needs to install dependencies manually.
+
+### Dependencies
+
+This project use following resources.
+
+- https://github.com/XJINE/Unity_TextFileReadWriter
 
 ## How to Use
 
