@@ -4,12 +4,13 @@ public class Sample : MonoBehaviour
 {
     #region Field
 
-    public SampleClass sampleClass;
+    public SampleNameSpace.SampleClass sampleClass;
 
     public string  directory         = "SampleDir";
     public KeyCode setRandomValueKey = KeyCode.S;
     public KeyCode readJsonKey       = KeyCode.R;
     public KeyCode writeJsonKey      = KeyCode.W;
+    public bool    fullNameMode      = true;
 
     #endregion Field
 
@@ -22,6 +23,8 @@ public class Sample : MonoBehaviour
 
     private void Update()
     {
+        JsonFileReadWriter.FullNameMode = fullNameMode;
+
         if (Input.GetKeyDown(setRandomValueKey))
         {
             sampleClass.SetRandomValue();
