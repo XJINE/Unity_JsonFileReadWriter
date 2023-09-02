@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "com.unity.ai.navigation": {
-      "version": "1.1.3",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.ai": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
@@ -17,7 +8,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.21",
+      "version": "3.0.24",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -26,7 +17,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.18",
+      "version": "2.0.20",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -51,6 +42,13 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.xjine.text_file_read_writer": {
+      "version": "https://github.com/XJINE/Unity_TextFileReadWriter.git?path=Assets/Packages/TextFileReadWriter",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "57e19562493f9726ff0ff5f5728cffcff023b4b2"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
