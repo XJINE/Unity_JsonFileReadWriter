@@ -1,7 +1,7 @@
 {
     "name"       : "com.xjine.json_file_read_writer",
     "displayName": "Json File Read Writer", 
-    "version"    : "1.2.0",
+    "version"    : "1.3.0",
     "unity"      : "2022.2",
     "description": "JsonFileReadWriter provides simple functions to de/serialize json from/to file.",
     "author"     :

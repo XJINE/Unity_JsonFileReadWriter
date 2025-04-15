@@ -4,6 +4,7 @@ using UnityEngine;
 public static class JsonFileReadWriter
 {
     public static bool FullNameMode = true;
+    public static bool PrettyPrint  = true;
 
     private static string TypeName<T>()
     {
@@ -154,6 +155,6 @@ public static class JsonFileReadWriter
             path += ".json";
         }
 
-        return TextFileReadWriter.Write(path, JsonUtility.ToJson(obj));
+        return TextFileReadWriter.Write(path, JsonUtility.ToJson(obj, PrettyPrint));
     }
 }
