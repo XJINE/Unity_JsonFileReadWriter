@@ -18,6 +18,15 @@ This project use following resources.
 
 ## How to Use
 
+### Option
+
+There are two options.
+
+```csharp
+public static bool FullNameMode = true; // Use typeof(T).FullName or typeof(T).Name.
+public static bool PrettyPrint  = true; // Write pretty printed JSON.
+```
+
 Following functions are included.
 
 ```csharp
